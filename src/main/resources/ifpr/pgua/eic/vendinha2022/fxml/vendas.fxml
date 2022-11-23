@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+
+<VBox xmlns="http://javafx.com/javafx" 
+      xmlns:fx="http://javafx.com/fxml" 
+      prefHeight="600" prefWidth="800"
+      fx:controller="ifpr.pgua.eic.vendinha2022.controllers.TelaVendas"
+      spacing="10"
+      >
+
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+
+    <TableView fx:id="tbVendas" onMouseClicked="#mostrarItensVenda">
+        <columns>
+            <TableColumn text="Id" fx:id="tbcId"/>
+            <TableColumn text="Cliente" fx:id="tbcCliente"/>
+            <TableColumn text="Data/Hora" fx:id="tbcDataHora"/>
+            <TableColumn text="Total da Venda" fx:id="tbcTotalVenda"/>
+        </columns>
+    </TableView>
+
+    <TableView fx:id="tbItens">
+        <columns>
+            <TableColumn text="Produto" fx:id="tbcItemProduto"/>
+            <TableColumn text="Quantidade" fx:id="tbcItemQuantidade"/>
+            <TableColumn text="Valor" fx:id="tbcItemValor"/>
+        </columns>
+    </TableView>
+
+
+
+
+</VBox>

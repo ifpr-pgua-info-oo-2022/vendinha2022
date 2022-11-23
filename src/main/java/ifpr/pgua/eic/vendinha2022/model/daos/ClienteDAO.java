@@ -12,6 +12,8 @@ public interface ClienteDAO {
     Cliente buscarPorId(int id);
     List<Cliente> buscarTodos();
     Result remover(int id);
+
+    Cliente buscarClienteDaVenda(int idVenda);
 }
 
 //CRUD

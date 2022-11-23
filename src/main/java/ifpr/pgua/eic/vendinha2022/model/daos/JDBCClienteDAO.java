@@ -72,10 +72,43 @@ public class JDBCClienteDAO implements ClienteDAO{
         }
     }
 
+
+
+    
     @Override
     public Cliente buscarPorId(int id) {
-        // TODO Auto-generated method stub
-        return null;
+        Cliente cliente = null;
+        try{
+            //criando uma conexão
+            Connection con = fabricaConexao.getConnection(); 
+            
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM clientes WHERE id=?");
+
+            pstm.setInt(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+            
+            while(rs.next()){
+                String nome = rs.getString("nome");
+                String email = rs.getString("email");
+                String telefone = rs.getString("telefone");
+                String cpf = rs.getString("cpf");
+
+                cliente = new Cliente(id, nome, cpf, email, telefone);
+
+            }
+
+
+            rs.close();
+            pstm.close();
+            con.close();
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return cliente;
     }
 
     @Override
@@ -104,7 +137,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
         
         return Collections.unmodifiableList(clientes);
@@ -114,6 +147,35 @@ public class JDBCClienteDAO implements ClienteDAO{
     public Result remover(int id) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public Cliente buscarClienteDaVenda(int idVenda) {
+        Cliente c = null;
+        try{   
+
+            Connection con = fabricaConexao.getConnection();
+
+            PreparedStatement pstm = con.prepareStatement("SELECT idCliente FROM vendas WHERE id=?");
+
+            pstm.setInt(1, idVenda);
+
+            ResultSet resultSetIdCliente = pstm.executeQuery();
+            resultSetIdCliente.next();
+
+            int idCliente = resultSetIdCliente.getInt("idCliente");
+
+            c = buscarPorId(idCliente);
+
+            resultSetIdCliente.close();
+            pstm.close();
+            con.close();
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return c;
     }
     
 }

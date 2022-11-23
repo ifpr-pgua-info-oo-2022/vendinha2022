@@ -21,6 +21,8 @@ CREATE TABLE vendas (
 	id INT AUTO_INCREMENT,
     dataHora TIMESTAMP NULL,
 	idCliente INT NOT NULL,
+    total double NOT NULL,
+    desconto double NOT NULL,
     PRIMARY KEY (id),
 	CONSTRAINT vendas_FK_cliente FOREIGN KEY (idCliente) REFERENCES clientes(id)
 );

@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 
 import ifpr.pgua.eic.vendinha2022.model.entities.Cliente;
 import ifpr.pgua.eic.vendinha2022.model.repositories.ClienteRepositorio;
-import ifpr.pgua.eic.vendinha2022.model.repositories.GerenciadorLoja;
 import ifpr.pgua.eic.vendinha2022.model.results.Result;
 import ifpr.pgua.eic.vendinha2022.model.results.SuccessResult;
 import javafx.fxml.FXML;
