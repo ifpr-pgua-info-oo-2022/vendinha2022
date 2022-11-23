@@ -74,7 +74,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 
 
 
-    
+
     @Override
     public Cliente buscarPorId(int id) {
         Cliente cliente = null;
@@ -133,6 +133,9 @@ public class JDBCClienteDAO implements ClienteDAO{
 
                 clientes.add(cliente);
             }
+            rs.close();
+            pstm.close();
+            con.close();
 
 
         }catch(SQLException e){

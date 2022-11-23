@@ -66,7 +66,7 @@ public class VendaRepositorio {
 
                 Produto novoItem = new Produto(produtoItem.getId(), produtoItem.getNome(), produtoItem.getDescricao(), produtoItem.getValor(), quantidade);
 
-                produtoDao.update(produtoItem.getId(), novoItem);
+                produtoDao.atualizar(produtoItem.getId(), novoItem);
 
 
             }
@@ -92,7 +92,7 @@ public class VendaRepositorio {
     private void carregarProdutoItensVenda(Venda venda){
 
         for(ItemVenda item:venda.getItens()){
-            item.setProduto(produtoDao.getProdutoItem(item.getId()));
+            item.setProduto(produtoDao.buscarProdutoItem(item.getId()));
         }
 
     }

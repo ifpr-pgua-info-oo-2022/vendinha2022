@@ -8,65 +8,61 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 import ifpr.pgua.eic.vendinha2022.model.FabricaConexao;
 import ifpr.pgua.eic.vendinha2022.model.entities.Produto;
 import ifpr.pgua.eic.vendinha2022.model.results.Result;
 
-public class JDBCProdutoDAO implements ProdutoDAO {
-    private static final String INSERT = "INSERT INTO produtos(nome,descricao,valor,quantidadeEstoque) VALUES (?,?,?,?)";
-    private static final String UPDATE = "UPDATE produtos set nome=?, descricao=?, valor=?, quantidadeEstoque=? WHERE id=?";
-    private static final String SELECT_ALL = "SELECT * FROM produtos";
-    private static final String SELECT_ID = "SELECT * FROM produtos WHERE id=?";
-    
-    
-    private FabricaConexao fabricaConexoes;
+public class JDBCProdutoDAO implements ProdutoDAO{
 
-    public JDBCProdutoDAO(FabricaConexao fabricaConexoes){
-        this.fabricaConexoes = fabricaConexoes;
+    private FabricaConexao fabricaConexao;
+
+    public JDBCProdutoDAO(FabricaConexao fabricaConexao){
+        this.fabricaConexao = fabricaConexao;
     }
 
-    @Override
-    public Result create(Produto obj) {
-        try{
-            //criando uma conexão
-            Connection con = fabricaConexoes.getConnection(); 
-            
-            //preparando o comando sql
-            PreparedStatement pstm = con.prepareStatement(INSERT);
-            
-            //ajustando os parâmetros do comando
-            pstm.setString(1, obj.getNome());
-            pstm.setString(2, obj.getDescricao());
-            pstm.setDouble(3, obj.getValor());
-            pstm.setDouble(4, obj.getQuantidadeEstoque());
 
-            pstm.execute();
+    @Override
+    public Result criar(Produto produto) {
+        //conectar no bd
+        //criar o comando sql
+        //executar o comando sql
+        try{
+            Connection con = fabricaConexao.getConnection();
+            
+            PreparedStatement pstm = con.prepareStatement("INSERT INTO produtos(nome,descricao,valor,quantidadeEstoque) VALUES (?,?,?,?)");
+
+            pstm.setString(1, produto.getNome());
+            pstm.setString(2, produto.getDescricao());
+            pstm.setDouble(3, produto.getValor());
+            pstm.setDouble(4, produto.getQuantidadeEstoque());
+
+            pstm.executeUpdate();
 
             pstm.close();
             con.close();
 
-            return Result.success("Cliente criado com sucesso!");
+            return Result.success("Produto inserido com sucesso!");
 
         }catch(SQLException e){
-            System.out.println(e.getMessage());
             return Result.fail(e.getMessage());
         }
     }
 
     @Override
-    public Result update(int id, Produto obj) {
+    public Result atualizar(int id, Produto novoProduto) {
         try{
             //criando uma conexão
-            Connection con = fabricaConexoes.getConnection(); 
+            Connection con = fabricaConexao.getConnection(); 
             
             //preparando o comando sql
-            PreparedStatement pstm = con.prepareStatement(UPDATE);
+            PreparedStatement pstm = con.prepareStatement("UPDATE produtos set nome=?, descricao=?, valor=?, quantidadeEstoque=? WHERE id=?");
             
             //ajustando os parâmetros do comando
-            pstm.setString(1, obj.getNome());
-            pstm.setString(2, obj.getDescricao());
-            pstm.setDouble(3, obj.getValor());
-            pstm.setDouble(4, obj.getQuantidadeEstoque());
+            pstm.setString(1, novoProduto.getNome());
+            pstm.setString(2, novoProduto.getDescricao());
+            pstm.setDouble(3, novoProduto.getValor());
+            pstm.setDouble(4, novoProduto.getQuantidadeEstoque());
             pstm.setInt(5, id);
 
             pstm.execute();
@@ -82,54 +78,58 @@ public class JDBCProdutoDAO implements ProdutoDAO {
         }
     }
 
-    private Produto buildFrom(ResultSet rs) throws SQLException{
-        int id = rs.getInt("id");
-        String nome = rs.getString("nome");
-        String descricao = rs.getString("descricao");
-        Double valor = rs.getDouble("valor");
-        Double quantidadeEstoque = rs.getDouble("quantidadeEstoque");
-
-        Produto produto = new Produto(id,nome, descricao, valor, quantidadeEstoque);
-        
-        return produto;
+    @Override
+    public Result remover(int id) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
-    public List<Produto> getAll() {
-        List<Produto> produtos = new ArrayList<>();
-        try{
-            //criando uma conexão
-            Connection con = fabricaConexoes.getConnection(); 
-            
-            PreparedStatement pstm = con.prepareStatement(SELECT_ALL);
+    public List<Produto> listarTodos() {
+        //conectar no banco
+        //criar o comando sql
+        //executar o comando sql
+        //processar o resultado
 
-            ResultSet rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                Produto produto = buildFrom(rs);
+        try{
+            Connection con = fabricaConexao.getConnection();
+
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos");
+
+            ResultSet resultSet = pstm.executeQuery();
+
+            List<Produto> produtos = new ArrayList<>();
+
+            while(resultSet.next()){
+                int id = resultSet.getInt("id");
+                String nome = resultSet.getString("nome");
+                String descricao = resultSet.getString("descricao");
+                double valor = resultSet.getDouble("valor");
+                double quantidadeEstoque = resultSet.getDouble("quantidadeEstoque");
+
+                Produto produto = new Produto(id,nome, descricao, valor, quantidadeEstoque);
+
                 produtos.add(produto);
             }
 
-            rs.close();
+            resultSet.close();
             pstm.close();
             con.close();
-
             return produtos;
 
         }catch(SQLException e){
             System.out.println(e.getMessage());
             return Collections.emptyList();
         }
-
     }
 
     @Override
-    public Produto getById(int id) {
+    public Produto buscarPorId(int id) {
         try{
             //criando uma conexão
-            Connection con = fabricaConexoes.getConnection(); 
+            Connection con = fabricaConexao.getConnection(); 
             
-            PreparedStatement pstm = con.prepareStatement(SELECT_ID);
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos WHERE id=?");
 
             pstm.setInt(1, id);
 
@@ -137,7 +137,13 @@ public class JDBCProdutoDAO implements ProdutoDAO {
             Produto produto = null; 
 
             while(rs.next()){
-                produto = buildFrom(rs); 
+                String nome = rs.getString("nome");
+                String descricao = rs.getString("descricao");
+                double valor = rs.getDouble("valor");
+                double quantidadeEstoque = rs.getDouble("quantidadeEstoque");
+
+                produto = new Produto(id,nome, descricao, valor, quantidadeEstoque);
+ 
             }
 
             rs.close();
@@ -153,17 +159,11 @@ public class JDBCProdutoDAO implements ProdutoDAO {
     }
 
     @Override
-    public Result delete(int id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Produto getProdutoItem(int itemId) {
+    public Produto buscarProdutoItem(int itemId) {
         Produto produto = null;
 
         try{    
-            Connection con = fabricaConexoes.getConnection();
+            Connection con = fabricaConexao.getConnection();
 
             PreparedStatement pstm = con.prepareStatement("SELECT idProduto FROM itensvenda WHERE id=?");
 
@@ -178,7 +178,7 @@ public class JDBCProdutoDAO implements ProdutoDAO {
             pstm.close();
             con.close();
 
-            produto = getById(idProduto);
+            produto = buscarPorId(idProduto);
 
         }catch(SQLException e){
             System.out.println(e.getMessage());

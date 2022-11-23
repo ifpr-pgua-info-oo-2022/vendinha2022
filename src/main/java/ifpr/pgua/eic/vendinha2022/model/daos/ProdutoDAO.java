@@ -5,15 +5,17 @@ import java.util.List;
 import ifpr.pgua.eic.vendinha2022.model.entities.Produto;
 import ifpr.pgua.eic.vendinha2022.model.results.Result;
 
-//DAO Data Access Object
-public interface ProdutoDAO{ 
-    Result create(Produto obj);
-    Result update(int id, Produto obj);
-    List<Produto> getAll();
-    Produto getById(int id);
-    Result delete(int id);
-    //método para montar um produto que está ligado há um item de venda.
-    Produto getProdutoItem(int itemId);
-}
+public interface ProdutoDAO {
+    Result criar(Produto produto);
+    Result atualizar(int id, Produto novoProduto);
+    Result remover(int id);
+    List<Produto> listarTodos();
+    Produto buscarPorId(int id);
 
-//CRUD - Create, Retrieve, Update, Delete
+    Produto buscarProdutoItem(int itemId);
+}
+//CRUD
+//Create -> Criar
+//Retrieve -> Recuperar (listar, buscarPorId, buscarPorNome)
+//Update -> atualizar
+//Delete -> remover
