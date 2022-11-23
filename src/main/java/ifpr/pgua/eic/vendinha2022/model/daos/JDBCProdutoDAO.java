@@ -30,7 +30,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
         try{
             Connection con = fabricaConexao.getConnection();
             
-            PreparedStatement pstm = con.prepareStatement("INSERT INTO produtos(nome,descricao,valor,quantidadeEstoque) VALUES (?,?,?,?)");
+            PreparedStatement pstm = con.prepareStatement("INSERT INTO produtos_oo(nome,descricao,valor,quantidadeEstoque) VALUES (?,?,?,?)");
 
             pstm.setString(1, produto.getNome());
             pstm.setString(2, produto.getDescricao());
@@ -56,7 +56,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
             Connection con = fabricaConexao.getConnection(); 
             
             //preparando o comando sql
-            PreparedStatement pstm = con.prepareStatement("UPDATE produtos set nome=?, descricao=?, valor=?, quantidadeEstoque=? WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("UPDATE produtos_oo set nome=?, descricao=?, valor=?, quantidadeEstoque=? WHERE id=?");
             
             //ajustando os parâmetros do comando
             pstm.setString(1, novoProduto.getNome());
@@ -94,7 +94,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
         try{
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos");
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos_oo");
 
             ResultSet resultSet = pstm.executeQuery();
 
@@ -129,7 +129,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
             //criando uma conexão
             Connection con = fabricaConexao.getConnection(); 
             
-            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM produtos_oo WHERE id=?");
 
             pstm.setInt(1, id);
 
@@ -165,7 +165,7 @@ public class JDBCProdutoDAO implements ProdutoDAO{
         try{    
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("SELECT idProduto FROM itensvenda WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("SELECT idProduto FROM itensvenda_oo WHERE id=?");
 
             pstm.setInt(1, itemId);
 

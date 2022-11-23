@@ -1,5 +1,5 @@
 
-CREATE TABLE produtos(
+CREATE TABLE produtos_oo(
   id int AUTO_INCREMENT,
   nome varchar(255) NOT NULL,
   descricao varchar(255) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE produtos(
   PRIMARY KEY (id)
 );
 
-CREATE TABLE clientes (
+CREATE TABLE clientes_oo (
   id int AUTO_INCREMENT,
   nome varchar(255) NOT NULL,
   cpf varchar(11) NOT NULL unique,
@@ -17,7 +17,7 @@ CREATE TABLE clientes (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE vendas (
+CREATE TABLE vendas_oo (
 	id INT AUTO_INCREMENT,
     dataHora TIMESTAMP NULL,
 	idCliente INT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE vendas (
 	CONSTRAINT vendas_FK_cliente FOREIGN KEY (idCliente) REFERENCES clientes(id)
 );
 
-CREATE TABLE itensvenda (
+CREATE TABLE itensvenda_oo (
 	id INT AUTO_INCREMENT,
     idVenda INT NOT NULL,
 	idProduto INT NOT NULL,

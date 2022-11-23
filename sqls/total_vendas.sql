@@ -7,7 +7,7 @@ BEGIN
     DECLARE terminou INTEGER DEFAULT 0;
 
     DECLARE vendas_cursor CURSOR FOR
-SELECT total FROM vendas;
+SELECT total FROM vendas_oo;
 
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET terminou = 1;
 OPEN vendas_cursor;

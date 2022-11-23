@@ -27,7 +27,7 @@ public class JDBCClienteDAO implements ClienteDAO{
             
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("INSERT INTO clientes(nome,cpf,email,telefone) VALUES (?,?,?,?)");
+            PreparedStatement pstm = con.prepareStatement("INSERT INTO clientes_oo(nome,cpf,email,telefone) VALUES (?,?,?,?)");
 
             pstm.setString(1, cliente.getNome());
             pstm.setString(2, cliente.getCpf());
@@ -53,7 +53,7 @@ public class JDBCClienteDAO implements ClienteDAO{
         try{
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("UPDATE clientes set email=?, telefone=? WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("UPDATE clientes_oo set email=?, telefone=? WHERE id=?");
 
             pstm.setString(1, cliente.getEmail());
             pstm.setString(2, cliente.getTelefone());
@@ -82,7 +82,7 @@ public class JDBCClienteDAO implements ClienteDAO{
             //criando uma conexão
             Connection con = fabricaConexao.getConnection(); 
             
-            PreparedStatement pstm = con.prepareStatement("SELECT * FROM clientes WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM clientes_oo WHERE id=?");
 
             pstm.setInt(1, id);
 
@@ -118,7 +118,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("SELECT * FROM clientes");
+            PreparedStatement pstm = con.prepareStatement("SELECT * FROM clientes_oo");
 
             ResultSet rs = pstm.executeQuery();
 
@@ -159,7 +159,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 
             Connection con = fabricaConexao.getConnection();
 
-            PreparedStatement pstm = con.prepareStatement("SELECT idCliente FROM vendas WHERE id=?");
+            PreparedStatement pstm = con.prepareStatement("SELECT idCliente FROM vendas_oo WHERE id=?");
 
             pstm.setInt(1, idVenda);
 

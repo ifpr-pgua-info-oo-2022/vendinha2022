@@ -20,9 +20,9 @@ import ifpr.pgua.eic.vendinha2022.model.results.Result;
 
 public class JDBCVendaDAO implements VendaDAO {
 
-    private static final String INSERT = "INSERT INTO vendas(dataHora,idCliente,total,desconto) VALUES (?,?,?,?)";
-    private static final String INSERT_ITEM = "INSERT INTO itensvenda(idVenda,idProduto,valor,quantidade) VALUES (?,?,?,?)";
-    private static final String SELECT_ALL = "SELECT * FROM vendas";
+    private static final String INSERT = "INSERT INTO vendas_oo(dataHora,idCliente,total,desconto) VALUES (?,?,?,?)";
+    private static final String INSERT_ITEM = "INSERT INTO itensvenda_oo(idVenda,idProduto,valor,quantidade) VALUES (?,?,?,?)";
+    private static final String SELECT_ALL = "SELECT * FROM vendas_oo";
 
     private FabricaConexao fabricaConexoes;
 
@@ -97,7 +97,7 @@ public class JDBCVendaDAO implements VendaDAO {
 
         Connection con = fabricaConexoes.getConnection();
 
-        PreparedStatement pstm = con.prepareStatement("SELECT * FROM itensvenda WHERE idVenda=?");
+        PreparedStatement pstm = con.prepareStatement("SELECT * FROM itensvenda_oo WHERE idVenda=?");
 
         pstm.setInt(1, idVenda);
 
